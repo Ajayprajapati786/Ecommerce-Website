@@ -1,8 +1,18 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import React, { useState } from 'react';
+import { Container, Nav, Navbar, Modal, Button } from 'react-bootstrap';
+import Cart from './Cart';
 
-function Header() {
+const Header = () => {
+  const [showCart, setShowCart] = useState(false);
+
+  const handleCartClick = () => {
+    setShowCart(true);
+  };
+
+  const handleCartClose = () => {
+    setShowCart(false);
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -13,13 +23,24 @@ function Header() {
             <Nav.Link href="#features">Store</Nav.Link>
             <Nav.Link href="#pricing">About</Nav.Link>
           </Nav>
-          <p className='text-muted' style={{marginTop:'15px', border:'2px solid skyblue', padding:'5px', borderRadius:'5px'}}>Cart <span className='text-primary'><sup>1</sup></span></p>
+          <button className="text-muted" style={{ border: '2px solid skyblue', padding: '5px', borderRadius: '5px' }} onClick={handleCartClick}>Cart <span className="text-primary"><sup>1</sup></span></button>
         </Container>
       </Navbar>
-    
-      
+      <Modal show={showCart} onHide={handleCartClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cart</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Cart />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCartClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
-}
+};
 
 export default Header;

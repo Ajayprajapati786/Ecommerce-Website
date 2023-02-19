@@ -2,6 +2,7 @@ import './App.css';
 import Button from 'react-bootstrap/Button';
 import Header from './Components/Header';
 import Store from './Components/Store';
+import Cart from './Components/Cart';
 
 
 function App() {
