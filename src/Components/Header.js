@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Container, Nav, Navbar, Modal, Button } from 'react-bootstrap';
-import Cart from './Cart';
+import React, { useState, useEffect } from "react";
+import { Container, Nav, Navbar, Modal, Button } from "react-bootstrap";
+import Cart from "./Cart";
 
-const Header = () => {
+const Header = (props) => {
   const [showCart, setShowCart] = useState(false);
 
   const handleCartClick = () => {
@@ -13,6 +13,15 @@ const Header = () => {
     setShowCart(false);
   };
 
+  const [updatedcartItems, setUpdatedCartItems] = useState([]);
+
+  useEffect(() => {
+    setUpdatedCartItems(props.cartItems);
+    // console.log("from Header.js");
+    // updatedcartItems.forEach((item) => {
+    //   console.log(item);
+    // });
+  }, [props.cartItems]);
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -23,7 +32,20 @@ const Header = () => {
             <Nav.Link href="#features">Store</Nav.Link>
             <Nav.Link href="#pricing">About</Nav.Link>
           </Nav>
-          <button className="text-muted" style={{ border: '2px solid skyblue', padding: '5px', borderRadius: '5px' }} onClick={handleCartClick}>Cart <span className="text-primary"><sup>1</sup></span></button>
+          <button
+            className="text-muted"
+            style={{
+              border: "2px solid skyblue",
+              padding: "5px",
+              borderRadius: "5px",
+            }}
+            onClick={handleCartClick}
+          >
+            Cart{" "}
+            <span className="text-primary">
+            <sup>{updatedcartItems.length}</sup>
+            </span>
+          </button>
         </Container>
       </Navbar>
       <Modal show={showCart} onHide={handleCartClose}>
@@ -31,7 +53,7 @@ const Header = () => {
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Cart />
+          <Cart toCartjs={updatedcartItems} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCartClose}>
