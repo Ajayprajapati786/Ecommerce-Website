@@ -39,10 +39,6 @@ const Store = ({ updateCartItems }) => {
 
   const [myArray, setMyArray] = useState([]);
 
-  // const addToArray = (product) => {
-  //   setMyArray([...myArray, product]);
-  // };
-
   const addToArray = (product) => {
     const exists = myArray.some((p) => p.id === product.id);
     if (exists) {

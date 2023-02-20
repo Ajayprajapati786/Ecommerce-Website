@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
-import Button from 'react-bootstrap/Button';
 import Header from './Components/Header';
 import Store from './Components/Store';
 import { useState,useEffect } from 'react';
-import Cart from './Components/Cart';
+import About from './Components/About';
+import Home from './Components/Home';
+
 
 
 function App() {
@@ -14,17 +15,12 @@ function App() {
     setCartItems(items);
   };
 
-  // useEffect(() => {
-  //   console.log('from App.js', cartItems);
-  // }, [cartItems]);
-
-  // Map over the cartItems array and create a new array of React components
-
   return (
     <div className="App">
       <Header  cartItems={cartItems}/>
+      {/* <Home/> */}
       <Store updateCartItems={updateCartItems} />
-      {/* {false && <Cart cartItems={cartItems}/>} */}
+      {/* <About/> */}
     </div>
   );
 }
