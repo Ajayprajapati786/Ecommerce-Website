@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Modal, Button } from "react-bootstrap";
 import Cart from "./Cart";
-import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
 
 const Header = (props) => {
   const [showCart, setShowCart] = useState(false);
@@ -29,8 +22,6 @@ const Header = (props) => {
     //   console.log(item);
     // });
   }, [props.cartItems]);
-
-  
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -70,28 +61,6 @@ const Header = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </>
   );
 };
