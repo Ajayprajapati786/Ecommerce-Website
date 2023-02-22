@@ -5,6 +5,8 @@ import Store from './Components/Store';
 import { useState,useEffect } from 'react';
 import About from './Components/About';
 import Home from './Components/Home';
+import { Route } from "react-router-dom";
+import Contactus from './Components/Contactus';
 
 
 
@@ -16,11 +18,26 @@ function App() {
   };
 
   return (
+
     <div className="App">
+      <header>
       <Header  cartItems={cartItems}/>
-      {/* <Home/> */}
-      <Store updateCartItems={updateCartItems} />
-      {/* <About/> */}
+      </header>
+      <main>
+      <Route path="/home">
+          <Home />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/store">
+        <Store updateCartItems={updateCartItems} />
+        </Route>
+        <Route path="/contact">
+        <Contactus/>
+        </Route>
+      </main>
+    
     </div>
   );
 }
