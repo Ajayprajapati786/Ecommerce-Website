@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-
+import { Route } from "react-router-dom";
+import ProductDetail from "./ProductDetail";
+import { useHistory } from "react-router-dom";
 const Store = ({ updateCartItems }) => {
   const productsArr = [
     {
@@ -51,6 +53,11 @@ const Store = ({ updateCartItems }) => {
     updateCartItems(myArray);
   }, [myArray, updateCartItems]);
 
+  const history = useHistory();
+  const changeRoute = (product) => {
+    history.push(`/store/${product.id}`);
+  };
+
   return (
     <Container className="mt-3">
       <Row
@@ -76,6 +83,10 @@ const Store = ({ updateCartItems }) => {
                 <Card.Text>Price: ${product.price}</Card.Text>
                 <Button variant="primary" onClick={() => addToArray(product)}>
                   Add to Cart
+                </Button>
+
+                <Button variant="primary" onClick={() => changeRoute(product)} className="mx-2">
+                  Detailed view
                 </Button>
               </Card.Body>
             </Card>
