@@ -36,7 +36,7 @@ const Header = (props) => {
                 Home
               </NavLink>
             </Nav.Link>
-            {authCtx.isLoggedIn && (
+            { (
               <Nav.Link>
                 <NavLink
                   activeClassName="active"

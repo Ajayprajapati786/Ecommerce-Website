@@ -2,17 +2,18 @@ import React from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Store from './Components/Store';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useContext } from 'react';
 import About from './Components/About';
 import Home from './Components/Home';
 import { Route, Switch,Redirect } from "react-router-dom";
 import Contactus from './Components/Contactus';
 import ProductDetail from './Components/ProductDetail';
 import Login from './Components/Login';
-
+import AuthContext from './Components/auth-context';
 
 
 function App() {
+  const authCtx = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
 
   const updateCartItems = (items) => {
@@ -40,8 +41,10 @@ function App() {
         <Route path="/login">
           <Login/>
         </Route>
+
         <Route path="/store" exact>
-        <Store updateCartItems={updateCartItems} />
+        {authCtx.isLoggedIn && <Store updateCartItems={updateCartItems} />}
+        {!authCtx.isLoggedIn && <Redirect to="/login"/>}
         </Route>
 
         <Route path="/contact">
