@@ -8,6 +8,7 @@ import Home from './Components/Home';
 import { Route, Switch,Redirect } from "react-router-dom";
 import Contactus from './Components/Contactus';
 import ProductDetail from './Components/ProductDetail';
+import Login from './Components/Login';
 
 
 
@@ -34,6 +35,10 @@ function App() {
         </Route>
         <Route path="/about">
           <About />
+        </Route>
+
+        <Route path="/login">
+          <Login/>
         </Route>
         <Route path="/store" exact>
         <Store updateCartItems={updateCartItems} />
