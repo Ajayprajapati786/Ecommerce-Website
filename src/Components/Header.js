@@ -3,11 +3,17 @@ import { Container, Nav, Navbar, Modal, Button } from "react-bootstrap";
 import Cart from "./Cart";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from "./auth-context";
+import axios from "axios";
 
 const Header = (props) => {
   const [showCart, setShowCart] = useState(false);
-  const authCtx = useContext(AuthContext);
 
+  const authCtx = useContext(AuthContext);
+  const emailStoredInLocalStorage = localStorage.getItem('email');
+  const userEmail = emailStoredInLocalStorage ? emailStoredInLocalStorage.replace(/[^\w\s]/gi, '') : "";
+
+
+  console.log(`user email from header ${userEmail}`);
   const handleCartClick = () => {
     setShowCart(true);
   };
@@ -18,13 +24,29 @@ const Header = (props) => {
 
   const [updatedcartItems, setUpdatedCartItems] = useState([]);
 
-  useEffect(() => {
-    setUpdatedCartItems(props.cartItems);
-    // console.log("from Header.js");
-    // updatedcartItems.forEach((item) => {
-    //   console.log(item);
-    // });
-  }, [props.cartItems]);
+  // useEffect(() => {
+  //   setUpdatedCartItems(props.cartItems);
+  
+  // }, [props.cartItems]);
+
+
+   useEffect(() => {
+    console.log(authCtx.isLoggedIn);
+    try {
+      axios.get(`https://ecommerce-cart-d0343-default-rtdb.firebaseio.com/${userEmail}.json`)
+        .then(response => {
+          // console.log(`received data ${JSON.stringify(response)}`);
+          setUpdatedCartItems(response.data.myArray)
+          console.log(response.data.myArray);
+        })
+        .catch(error => {
+          console.log("Error retrieving data: ", error);
+        });
+    } catch (error) {
+      console.log("Error retrieving data: ", error);
+    }
+  },[]);
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -109,7 +131,7 @@ const Header = (props) => {
         <Modal.Header closeButton>
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body>  
           <Cart toCartjs={updatedcartItems} />
         </Modal.Body>
         <Modal.Footer>

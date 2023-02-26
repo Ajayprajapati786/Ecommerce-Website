@@ -16,6 +16,7 @@ const Login = () => {
         event.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
+        localStorage.setItem('email', enteredEmail);
 
         fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCO_5MwtpO6aijlQv3QHhntme1iMxUYmzs", {
             method: "POST",
@@ -45,7 +46,7 @@ const Login = () => {
             .then((data) => {
             //   const expirationTime = new Date(new Date().getTime() + (+data.expiresIn * 1000));
               console.log(data);
-              authCtx.login(data.idToken)
+              authCtx.login(data.idToken,enteredEmail)
             //   authCtx.login(data.idToken,expirationTime.toISOString());
               history.replace('/store');
             })

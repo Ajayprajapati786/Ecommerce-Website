@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Route } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import { useHistory } from "react-router-dom";
+import AuthContext from "./auth-context";
+import axios from "axios";
 const Store = ({ updateCartItems }) => {
+
+  const authCtx = useContext(AuthContext);
+  // const emailStoredInLocalStorage = localStorage.getItem('email');
+  const emailStoredInLocalStorage = localStorage.getItem('email');
+  const userEmail = emailStoredInLocalStorage ? emailStoredInLocalStorage.replace(/[^\w\s]/gi, '') : "emailemailcom";
+// my store was crashing
+  // const userEmail = authCtx && authCtx.userEmail ? authCtx.userEmail.replace(/[^\w\s]/gi, '') : '';
+
+
+  console.log(`user email from Store ${userEmail}`);
+
   const productsArr = [
     {
       id: 1,
@@ -41,17 +54,28 @@ const Store = ({ updateCartItems }) => {
 
   const [myArray, setMyArray] = useState([]);
 
+  useEffect(() => {
+    updateCartItems(myArray);
+  }, [myArray]);
+
+
   const addToArray = (product) => {
+    
+    setMyArray((prevArray) => {
+      const newArray = [...prevArray, product];
+      axios.patch(`https://ecommerce-cart-d0343-default-rtdb.firebaseio.com/${userEmail}.json`, {myArray: newArray})
+        .then((response) => {
+          console.log("Added");
+        });
+      return newArray;
+    });
     const exists = myArray.some((p) => p.id === product.id);
     if (exists) {
       alert(`Product ${product.title} is already in the cart.`);
       return;
     }
-    setMyArray([...myArray, product]);
   };
-  useEffect(() => {
-    updateCartItems(myArray);
-  }, [myArray, updateCartItems]);
+
 
   const history = useHistory();
   const changeRoute = (product) => {
